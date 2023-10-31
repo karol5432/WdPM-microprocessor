@@ -15,7 +15,7 @@ always @(*) begin
 	case(ADDR)
 		4'h0: DATA <= 12'hC00; // nop				0	0
 		4'h1: DATA <= 12'hD20; // ldi 2			1	0
-		// 4'h1: DATA <= 12'h90; // inc A			1	0
+		// 4'h1: DATA <= 12'h900; // inc A			1	0
 		4'h2: DATA <= 12'h900; // inc A			2	0
 		4'h3: DATA <= 12'h900; // inc A			3	0
 		4'h4: DATA <= 12'hB00; // ST R			3	3

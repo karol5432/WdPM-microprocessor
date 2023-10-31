@@ -5,6 +5,7 @@
 `include "ALU.v"
 `include "register.v"
 `include "mux.v"
+`include "memory.v"
 
 module tb_processor();
 
@@ -33,7 +34,12 @@ program_counter p1(
     .DATA(TO_ROM)
 );
 
-rom16x8 ROM(
+// rom16x8 ROM(
+//     .ADDR(TO_ROM),
+//     .DATA(TO_ID)
+// );
+
+memory mem(
     .ADDR(TO_ROM),
     .DATA(TO_ID)
 );
@@ -87,7 +93,7 @@ initial begin // start conditions
 end
 
 initial begin // testbench program
-    #20 RESET = 1'b0;
+    #10 RESET = 1'b0;
 
     #200 $finish;
 end
