@@ -8,10 +8,10 @@
 
 module tb_processor();
 
-parameter DATA_WIDTH = 4;
+parameter DATA_WIDTH = 8;
 parameter OP_WIDTH = 2;
 parameter PC_WIDTH = 4;
-parameter ROM_WIDTH = 8;
+parameter ROM_WIDTH = 12;
 
 reg RESET;
 reg CLK;
@@ -39,7 +39,7 @@ rom16x8 ROM(
 );
 
 instruction_decoder ID(
-    .INSTRUCTION(TO_ID[7:4]),
+    .INSTRUCTION(TO_ID[11:8]),
     .RESET_INSTR(RST_CODE),
     .SEL(MUX_SEL),
     .CE_R0(CE_R0),
@@ -72,7 +72,7 @@ register R0(
 
 mux2 mux_alu(
     .IN0(ACC_OUT),
-    .IN1(TO_ID[3:0]),
+    .IN1(TO_ID[7:0]),
     .SEL(MUX_SEL),
     .OUT(MUX_OUT)
 );

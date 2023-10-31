@@ -9,7 +9,7 @@ module register(
 	output [WIDTH-1:0] OUT
 );
 
-parameter WIDTH = 4;
+parameter WIDTH = 8;
 
 reg [WIDTH-1:0] OUT;
 

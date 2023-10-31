@@ -8,9 +8,9 @@ module mux2(
 	output [DATA_WIDTH-1:0] OUT
 );
 
-parameter DATA_WIDTH = 4;
+parameter DATA_WIDTH = 8;
 
-reg [3:0] OUT;
+reg [DATA_WIDTH-1:0] OUT;
 
 always @(*) begin
 	case(SEL)

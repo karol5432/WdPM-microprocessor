@@ -5,7 +5,7 @@ module alu(
 	output [DATA_WIDTH-1:0] OUT
 );
 
-parameter DATA_WIDTH = 4;
+parameter DATA_WIDTH = 8;
 parameter OP_WIDTH = 2;
 
 reg [DATA_WIDTH-1:0] OUT;
