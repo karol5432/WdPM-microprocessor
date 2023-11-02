@@ -6,12 +6,10 @@ module register(
 	input CLK,
 	input CE,
 	// input RST,
-	output [WIDTH-1:0] OUT
+	output reg [WIDTH-1:0] OUT
 );
 
 parameter WIDTH = 8;
-
-reg [WIDTH-1:0] OUT;
 
 always @(posedge CLK) begin
 	// if(RST == 1'b1) OUT <= 1'b0; // needed for sim when there are none ldi instructions

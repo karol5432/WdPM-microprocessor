@@ -5,12 +5,10 @@ module mux2(
 	input [DATA_WIDTH-1:0] IN0,
 	input [DATA_WIDTH-1:0] IN1,
 	input SEL,
-	output [DATA_WIDTH-1:0] OUT
+	output reg [DATA_WIDTH-1:0] OUT
 );
 
 parameter DATA_WIDTH = 8;
-
-reg [DATA_WIDTH-1:0] OUT;
 
 always @(*) begin
 	case(SEL)

@@ -3,13 +3,11 @@
 
 module rom16x8(
 	input [ADDR_WIDTH-1:0] ADDR,
-	output [WIDTH-1:0] DATA
+	output reg [WIDTH-1:0] DATA
 );
 
 parameter WIDTH = 12;
 parameter ADDR_WIDTH = 4;
-
-reg [WIDTH-1:0] DATA;
 
 always @(*) begin
 	case(ADDR)

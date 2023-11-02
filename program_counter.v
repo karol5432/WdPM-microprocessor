@@ -4,12 +4,10 @@
 module program_counter(
 	input RST,
 	input CLK,
-	output [WIDTH-1:0] DATA
+	output reg [WIDTH-1:0] DATA
 );
 
 parameter WIDTH = 4;
-
-reg [WIDTH-1:0] DATA;
 
 always @(posedge CLK) begin
 	if(RST == 1) DATA <= 4'h0;

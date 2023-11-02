@@ -1,16 +1,16 @@
 `timescale 1ns/100ps
 `include "program_counter.v"
-`include "rom.v"
+`include "rom16x8.v"
 `include "instruction_decoder.v"
-`include "ALU.v"
+`include "alu.v"
 `include "register.v"
-`include "mux.v"
+`include "mux2.v"
 `include "memory.v"
 
 module tb_processor();
 
 parameter DATA_WIDTH = 8;
-parameter OP_WIDTH = 2;
+parameter OP_WIDTH = 4;
 parameter PC_WIDTH = 4;
 parameter ROM_WIDTH = 12;
 
