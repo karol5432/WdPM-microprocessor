@@ -1,0 +1,48 @@
+$date
+	Sun Nov 05 12:53:56 2023
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module tb_decoder2 $end
+$var wire 2 ! OUT [1:0] $end
+$var reg 1 " EN $end
+$var reg 1 # SEL $end
+$scope module dec2 $end
+$var wire 1 $ EN $end
+$var wire 1 % SEL $end
+$var reg 2 & OUT [1:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b0 &
+0%
+0$
+0#
+0"
+b0 !
+$end
+#10
+1#
+1%
+#20
+b10 &
+b10 !
+1"
+1$
+#30
+b1 &
+b1 !
+0#
+0%
+#40
+b0 &
+b0 !
+0"
+0$
+#50
