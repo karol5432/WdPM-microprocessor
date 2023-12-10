@@ -1,5 +1,5 @@
-module decoder2(
-    input [3:0] SEL,
+module decoder8(
+    input [2:0] SEL,
     input EN,
     output reg [7:0] OUT
 );
@@ -19,4 +19,4 @@ always @(*) begin
     end else OUT <= 8'b00000000;
 end
 
-endmodule // decoder2
+endmodule // decoder8

@@ -1,0 +1,79 @@
+$date
+	Mon Nov 13 11:08:34 2023
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module tb_ram_mem $end
+$var wire 8 ! DATA_OUT [7:0] $end
+$var reg 4 " ADDR [3:0] $end
+$var reg 1 # CE $end
+$var reg 1 $ CLK $end
+$var reg 8 % DATA_IN [7:0] $end
+$scope module RAM $end
+$var wire 4 & ADDR [3:0] $end
+$var wire 1 # CE $end
+$var wire 1 $ CLK $end
+$var wire 8 ' DATA_IN [7:0] $end
+$var reg 8 ( DATA_OUT [7:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+bx (
+b0 '
+b0 &
+b0 %
+0$
+0#
+b0 "
+bx !
+$end
+#5000
+1$
+#10000
+0$
+1#
+b1010 "
+b1010 &
+b101011 %
+b101011 '
+#15000
+1$
+#20000
+0$
+b1011 "
+b1011 &
+0#
+#25000
+1$
+#30000
+0$
+1#
+b11011010 %
+b11011010 '
+#35000
+1$
+#40000
+0$
+b1010 "
+b1010 &
+0#
+#45000
+b101011 !
+b101011 (
+1$
+#50000
+0$
+b1011 "
+b1011 &
+#55000
+b11011010 !
+b11011010 (
+1$
+#60000
+0$

@@ -4,7 +4,7 @@ module memory(
 );
 
 parameter ADDR_WIDTH = 4;
-parameter WIDTH = 12;
+parameter WIDTH = 16;
 
 reg [WIDTH-1:0] MEM [0:(2**ADDR_WIDTH)-1];
 

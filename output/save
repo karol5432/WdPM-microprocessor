@@ -1,0 +1,7 @@
+#! /bin/bash
+
+rm '/home/student/Documents/WdPM/WdPM-microprocessor/output/tb_processor.lxt'
+iverilog -Wall -o output/tb_processor.vvp tb_processor.v && vvp output/tb_processor.vvp -lxt2
+if ! [[ $1 == "-q" ]]; then
+	gtkwave output/tb_processor.vcd output/tb_processor.gtkw >> /dev/null & disown && sleep 2 && echo ''
+fi
