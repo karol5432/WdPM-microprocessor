@@ -29,18 +29,18 @@ always @(posedge CLK, negedge nRST) begin
         if (EMPTY) begin
             SP <= SP;
             EMPTY <= EMPTY;
-        end else if (SP == 3'b000 && EMPTY == 1'b0) begin
-            SP <= SP;
-            DATA_OUT <= STACK[SP];
+        end else if (SP == 3'b001) begin // && EMPTY == 1'b0
+            SP <= SP - 1;
+            // DATA_OUT <= STACK[SP];
             EMPTY <= 1'b1;
         end else if (SP == 3'b111 && FULL == 1'b1) begin
             SP <= SP;
-            DATA_OUT <= STACK[SP];
+            // DATA_OUT <= STACK[SP];
             EMPTY <= 1'b0;
             FULL <= 1'b0;
         end else begin
             SP <= SP - 1;
-            DATA_OUT <= STACK[SP-1];
+            // DATA_OUT <= STACK[SP-1];
             EMPTY <= 1'b0;
             FULL <= 1'b0;
         end
@@ -59,6 +59,12 @@ always @(posedge CLK, negedge nRST) begin
             EMPTY <= 1'b0;
         end
     end
+end
+
+always @(*) begin
+    if (SP == 3'b000 && EMPTY == 1'b0) DATA_OUT <= STACK[SP];
+    else if (SP == 3'b111 && FULL == 1'b1) DATA_OUT <= STACK[SP];
+    else DATA_OUT <= STACK[SP-1];
 end
 
 endmodule // stack

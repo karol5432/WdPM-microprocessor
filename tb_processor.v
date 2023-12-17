@@ -9,12 +9,14 @@
 `include "decoder8.v"
 `include "mux8.v"
 `include "ram_mem.v"
+`include "stack.v"
+`include "mux4.v"
 
 module tb_processor();
 
 parameter DATA_WIDTH = 8;
 parameter OP_WIDTH = 4;
-parameter PC_WIDTH = 4;
+parameter PC_WIDTH = 5;
 parameter ROM_WIDTH = 16;
 
 reg RESET;
@@ -22,8 +24,7 @@ reg CLK;
 wire [PC_WIDTH-1:0] TO_ROM;
 wire [ROM_WIDTH-1:0] TO_ID;
 wire RST_CODE;
-wire MUX_SEL;
-// wire CE_R7, CE_R6, CE_R5, CE_R4, CE_R3, CE_R2, CE_R1, CE_R0;
+wire [1:0] MUX_SEL;
 wire [7:0] CE_R;
 wire CE_ACC;
 wire [OP_WIDTH-1:0] OP;
@@ -38,13 +39,27 @@ wire [DATA_WIDTH-1:0] MEM_OUT;
 wire MEM_SEL;
 wire CE_RAM;
 wire CE_PC;
+wire [DATA_WIDTH-1:0] STACK_OUT;
+wire CE_STACK;
+wire nRW_STACK;
+wire STACK_SEL;
+wire [DATA_WIDTH-1:0] STACK_IN;
+wire PC_SEL;
+wire [DATA_WIDTH-1:0] PC_IN;
 
 program_counter p1(
     .RST(RESET | RST_CODE),
     .CLK(CLK),
     .DATA(TO_ROM),
     .CE(CE_PC),
-    .IN(TO_ID[3:0])
+    .IN(PC_IN[4:0])
+);
+
+mux2 pc_in(
+    .IN0(TO_ID[7:0]),
+    .IN1(STACK_OUT),
+    .SEL(PC_SEL),
+    .OUT(PC_IN)
 );
 
 // rom16x8 ROM(
@@ -66,7 +81,11 @@ instruction_decoder ID(
     .REG_WR(REG_WR),
     .MEM_SEL(MEM_SEL),
     .CE_RAM(CE_RAM),
-    .CE_PC(CE_PC)
+    .CE_PC(CE_PC),
+    .CE_STACK(CE_STACK),
+    .nRW_STACK(nRW_STACK),
+    .STACK_SEL(STACK_SEL),
+    .PC_SEL(PC_SEL)
 );
 
 alu ALU(
@@ -167,9 +186,11 @@ register R7(
     .OUT(R7_OUT)
 );
 
-mux2 mux_alu(
+mux4 mux_alu(
     .IN0(ACC_OUT),
     .IN1(TO_ID[7:0]),
+    .IN2(STACK_OUT),
+    .IN3(),
     .SEL(MUX_SEL),
     .OUT(MUX_OUT)
 );
@@ -189,6 +210,22 @@ ram_mem RAM(
     .DATA_OUT(RAM_OUT)
 );
 
+mux2 stack_in(
+    .IN0(ACC_OUT),
+    .IN1({3'b000, TO_ROM+1'b1}),
+    .SEL(STACK_SEL),
+    .OUT(STACK_IN)
+);
+
+stack stack(
+    .DATA_IN(STACK_IN),
+    .CLK(CLK),
+    .nRW(nRW_STACK),
+    .CE(CE_STACK),
+    .nRST(~RESET),
+    .DATA_OUT(STACK_OUT)
+);
+
 initial begin // clock generation
     CLK = 1'b0;
     forever #5 CLK = ~CLK;
@@ -198,10 +235,10 @@ initial begin // start conditions
     RESET = 1'b1;
 end
 
-initial begin // testbench program
+initial begin // testbench program (very demanding)
     #10 RESET = 1'b0;
 
-    #200 $finish;
+    #500 $finish;
 end
 
 initial begin

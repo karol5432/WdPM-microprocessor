@@ -9,10 +9,10 @@ module program_counter(
 	output reg [WIDTH-1:0] DATA
 );
 
-parameter WIDTH = 4;
+parameter WIDTH = 5;
 
 always @(posedge CLK) begin
-	if(RST) DATA <= 4'h0;
+	if(RST) DATA <= 5'h0;
 	else if (CE) DATA <= IN;
 	else DATA <= DATA + 1;
 end
