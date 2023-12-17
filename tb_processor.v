@@ -21,6 +21,9 @@ parameter ROM_WIDTH = 16;
 
 reg RESET;
 reg CLK;
+reg [DATA_WIDTH-1:0] PORTA_IN;
+wire [DATA_WIDTH-1:0] PORTA_OUT;
+
 wire [PC_WIDTH-1:0] TO_ROM;
 wire [ROM_WIDTH-1:0] TO_ID;
 wire RST_CODE;
@@ -85,7 +88,8 @@ instruction_decoder ID(
     .CE_STACK(CE_STACK),
     .nRW_STACK(nRW_STACK),
     .STACK_SEL(STACK_SEL),
-    .PC_SEL(PC_SEL)
+    .PC_SEL(PC_SEL),
+    .CE_PORTA(CE_PORTA)
 );
 
 alu ALU(
@@ -190,7 +194,7 @@ mux4 mux_alu(
     .IN0(ACC_OUT),
     .IN1(TO_ID[7:0]),
     .IN2(STACK_OUT),
-    .IN3(),
+    .IN3(PORTA_IN),
     .SEL(MUX_SEL),
     .OUT(MUX_OUT)
 );
@@ -226,6 +230,13 @@ stack stack(
     .DATA_OUT(STACK_OUT)
 );
 
+register porta(
+    .IN(ACC_OUT),
+    .CLK(CLK),
+    .CE(CE_PORTA),
+    .OUT(PORTA_OUT)
+);
+
 initial begin // clock generation
     CLK = 1'b0;
     forever #5 CLK = ~CLK;
@@ -233,12 +244,14 @@ end
 
 initial begin // start conditions
     RESET = 1'b0;
+    PORTA_IN = 8'h00;
 end
 
 initial begin // testbench program (very demanding)
     #10 RESET = 1'b1;
+    PORTA_IN = 8'd250;
 
-    #500 $finish;
+    #1000 $finish;
 end
 
 initial begin
