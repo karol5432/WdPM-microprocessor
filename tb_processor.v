@@ -48,7 +48,7 @@ wire PC_SEL;
 wire [DATA_WIDTH-1:0] PC_IN;
 
 program_counter p1(
-    .RST(RESET | RST_CODE),
+    .nRST(RESET & RST_CODE),
     .CLK(CLK),
     .DATA(TO_ROM),
     .CE(CE_PC),
@@ -90,7 +90,7 @@ instruction_decoder ID(
 
 alu ALU(
     .IN0(MUX_OUT),
-    .IN1(R_OUT),
+    .IN1(MEM_OUT),
     .OP(OP),
     .OUT(ALU_OUT)
 );
@@ -205,7 +205,7 @@ mux2 mux_mem(
 ram_mem RAM(
     .CLK(CLK),
     .CE(CE_RAM),
-    .ADDR(R0_OUT[3:0]),
+    .ADDR(R_OUT),
     .DATA_IN(ACC_OUT),
     .DATA_OUT(RAM_OUT)
 );
@@ -222,7 +222,7 @@ stack stack(
     .CLK(CLK),
     .nRW(nRW_STACK),
     .CE(CE_STACK),
-    .nRST(~RESET),
+    .nRST(RESET & RST_CODE),
     .DATA_OUT(STACK_OUT)
 );
 
@@ -232,11 +232,11 @@ initial begin // clock generation
 end
 
 initial begin // start conditions
-    RESET = 1'b1;
+    RESET = 1'b0;
 end
 
 initial begin // testbench program (very demanding)
-    #10 RESET = 1'b0;
+    #10 RESET = 1'b1;
 
     #500 $finish;
 end
