@@ -1,0 +1,30 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Sat Jan 27 18:02:16 2024
+[*]
+[dumpfile] "/home/karol/Documents/Studia MSC/WdPM/WdPM-microprocessor-latest/tb_processor.vcd"
+[dumpfile_mtime] "Sat Jan 27 18:01:46 2024"
+[dumpfile_size] 179665
+[savefile] "/home/karol/Documents/Studia MSC/WdPM/WdPM-microprocessor-latest/tb_processor.gtkw"
+[timestart] 0
+[size] 1850 1016
+[pos] -1 -1
+*-8.429911 215000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[sst_width] 233
+[signals_width] 151
+[sst_expanded] 1
+[sst_vpaned_height] 579
+@28
+tb_processor.ACC.nRST
+tb_processor.CLK
+@24
+tb_processor.TO_ROM[5:0]
+tb_processor.ACC_OUT[7:0]
+tb_processor.PORTA_OUT[7:0]
+tb_processor.R0_OUT[7:0]
+tb_processor.R1_OUT[7:0]
+tb_processor.R2_OUT[7:0]
+@28
+tb_processor.CE_PC
+[pattern_trace] 1
+[pattern_trace] 0

@@ -1,6 +1,4 @@
-`timescale 1ns/1ps
 `include "program_counter.v"
-`include "rom16x8.v"
 `include "instruction_decoder.v"
 `include "ALU.v"
 `include "register.v"
@@ -11,19 +9,30 @@
 `include "ram_mem.v"
 `include "stack.v"
 `include "mux4.v"
+`include "jump_conditions.v"
+`timescale 1ns/1ns
 
 module tb_processor();
 
+/* -------------------- PARAMETERS -------------------- */
+
 parameter DATA_WIDTH = 8;
 parameter OP_WIDTH = 4;
-parameter PC_WIDTH = 5;
+parameter PC_WIDTH = 6;
 parameter ROM_WIDTH = 16;
+
+
+/* -------------------- INPUTS/OUTPUTS -------------------- */
 
 reg RESET;
 reg CLK;
 reg [DATA_WIDTH-1:0] PORTA_IN;
 wire [DATA_WIDTH-1:0] PORTA_OUT;
 
+
+/* -------------------- WIRES -------------------- */
+
+wire CE_PORTA;
 wire [PC_WIDTH-1:0] TO_ROM;
 wire [ROM_WIDTH-1:0] TO_ID;
 wire RST_CODE;
@@ -33,6 +42,7 @@ wire CE_ACC;
 wire [OP_WIDTH-1:0] OP;
 wire [DATA_WIDTH-1:0] ACC_OUT;
 wire [DATA_WIDTH-1:0] R7_OUT, R6_OUT, R5_OUT, R4_OUT, R3_OUT, R2_OUT, R1_OUT, R0_OUT;
+wire CE_R7, CE_R6, CE_R5, CE_R4, CE_R3, CE_R2, CE_R1, CE_R0;
 wire [DATA_WIDTH-1:0] R_OUT;
 wire [DATA_WIDTH-1:0] ALU_OUT;
 wire [DATA_WIDTH-1:0] MUX_OUT;
@@ -49,13 +59,18 @@ wire STACK_SEL;
 wire [DATA_WIDTH-1:0] STACK_IN;
 wire PC_SEL;
 wire [DATA_WIDTH-1:0] PC_IN;
+wire ZF;
+wire [1:0] JUMP;
+
+
+/* -------------------- INSTANCES -------------------- */
 
 program_counter p1(
     .nRST(RESET & RST_CODE),
     .CLK(CLK),
     .DATA(TO_ROM),
     .CE(CE_PC),
-    .IN(PC_IN[4:0])
+    .IN(PC_IN[5:0])
 );
 
 mux2 pc_in(
@@ -64,11 +79,6 @@ mux2 pc_in(
     .SEL(PC_SEL),
     .OUT(PC_IN)
 );
-
-// rom16x8 ROM(
-//     .ADDR(TO_ROM),
-//     .DATA(TO_ID)
-// );
 
 memory mem(
     .ADDR(TO_ROM),
@@ -84,7 +94,7 @@ instruction_decoder ID(
     .REG_WR(REG_WR),
     .MEM_SEL(MEM_SEL),
     .CE_RAM(CE_RAM),
-    .CE_PC(CE_PC),
+    .JUMP(JUMP),
     .CE_STACK(CE_STACK),
     .nRW_STACK(nRW_STACK),
     .STACK_SEL(STACK_SEL),
@@ -92,10 +102,11 @@ instruction_decoder ID(
     .CE_PORTA(CE_PORTA)
 );
 
-alu ALU(
+ALU alu (
     .IN0(MUX_OUT),
     .IN1(MEM_OUT),
     .OP(OP),
+    .ZF(ZF),
     .OUT(ALU_OUT)
 );
 
@@ -103,8 +114,14 @@ register ACC(
     .IN(ALU_OUT),
     .CLK(CLK),
     .CE(CE_ACC),
-    // .RST(RESET),
+    .nRST(RESET && RST_CODE),
     .OUT(ACC_OUT)
+);
+
+jump_conditions jump(
+    .JUMP(JUMP),
+    .ZF(ZF),
+    .CE_PC(CE_PC)
 );
 
 decoder8 dec(
@@ -130,7 +147,7 @@ register R0(
     .IN(ACC_OUT),
     .CLK(CLK),
     .CE(CE_R0),
-    // .RST(RESET),
+    .nRST(RESET && RST_CODE),
     .OUT(R0_OUT)
 );
 
@@ -138,7 +155,7 @@ register R1(
     .IN(ACC_OUT),
     .CLK(CLK),
     .CE(CE_R1),
-    // .RST(RESET),
+    .nRST(RESET && RST_CODE),
     .OUT(R1_OUT)
 );
 
@@ -146,7 +163,7 @@ register R2(
     .IN(ACC_OUT),
     .CLK(CLK),
     .CE(CE_R2),
-    // .RST(RESET),
+    .nRST(RESET && RST_CODE),
     .OUT(R2_OUT)
 );
 
@@ -154,7 +171,7 @@ register R3(
     .IN(ACC_OUT),
     .CLK(CLK),
     .CE(CE_R3),
-    // .RST(RESET),
+    .nRST(RESET && RST_CODE),
     .OUT(R3_OUT)
 );
 
@@ -162,7 +179,7 @@ register R4(
     .IN(ACC_OUT),
     .CLK(CLK),
     .CE(CE_R4),
-    // .RST(RESET),
+    .nRST(RESET && RST_CODE),
     .OUT(R4_OUT)
 );
 
@@ -170,7 +187,7 @@ register R5(
     .IN(ACC_OUT),
     .CLK(CLK),
     .CE(CE_R5),
-    // .RST(RESET),
+    .nRST(RESET && RST_CODE),
     .OUT(R5_OUT)
 );
 
@@ -178,7 +195,7 @@ register R6(
     .IN(ACC_OUT),
     .CLK(CLK),
     .CE(CE_R6),
-    // .RST(RESET),
+    .nRST(RESET && RST_CODE),
     .OUT(R6_OUT)
 );
 
@@ -186,7 +203,7 @@ register R7(
     .IN(ACC_OUT),
     .CLK(CLK),
     .CE(CE_R7),
-    // .RST(RESET),
+    .nRST(RESET && RST_CODE),
     .OUT(R7_OUT)
 );
 
@@ -216,7 +233,7 @@ ram_mem RAM(
 
 mux2 stack_in(
     .IN0(ACC_OUT),
-    .IN1({3'b000, TO_ROM+1'b1}),
+    .IN1({2'b00, TO_ROM+1'b1}),
     .SEL(STACK_SEL),
     .OUT(STACK_IN)
 );
@@ -234,8 +251,12 @@ register porta(
     .IN(ACC_OUT),
     .CLK(CLK),
     .CE(CE_PORTA),
+    .nRST(RESET && RST_CODE),
     .OUT(PORTA_OUT)
 );
+
+
+/* -------------------- TESTBENCH -------------------- */
 
 initial begin // clock generation
     CLK = 1'b0;
@@ -251,7 +272,7 @@ initial begin // testbench program (very demanding)
     #10 RESET = 1'b1;
     PORTA_IN = 8'd250;
 
-    #1000 $finish;
+    #10000 $finish;
 end
 
 initial begin
@@ -260,4 +281,4 @@ initial begin
     $dumpon;
 end
 
-endmodule
+endmodule // tb_microprocessor

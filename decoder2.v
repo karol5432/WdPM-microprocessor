@@ -1,3 +1,5 @@
+`timescale 1ns/1ns
+
 module decoder2(
     input SEL,
     input EN,

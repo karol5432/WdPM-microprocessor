@@ -1,7 +1,10 @@
 // -------------------- MUX --------------------
 // good one 4 on one
 
-module mux4(
+`timescale 1ns/1ns
+
+module mux4 #(
+	parameter DATA_WIDTH = 8) (
 	input [DATA_WIDTH-1:0] IN0,
 	input [DATA_WIDTH-1:0] IN1,
 	input [DATA_WIDTH-1:0] IN2,
@@ -9,8 +12,6 @@ module mux4(
 	input [1:0] SEL,
 	output reg [DATA_WIDTH-1:0] OUT
 );
-
-parameter DATA_WIDTH = 8;
 
 always @(*) begin
 	case(SEL)

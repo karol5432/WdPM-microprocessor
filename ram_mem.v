@@ -1,3 +1,5 @@
+`timescale 1ns/1ns
+
 module ram_mem(
     input CLK,
     input CE,
@@ -15,7 +17,7 @@ always @(posedge CLK) begin
     if(CE) MEM[ADDR] <= DATA_IN;
 end
 
-always @(*)
+always @(CLK, CE, ADDR, DATA_IN, DATA_OUT)
     DATA_OUT <= MEM[ADDR];
 
 // initial begin

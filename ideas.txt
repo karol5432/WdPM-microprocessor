@@ -1,0 +1,4 @@
+Rozszerzyć up do 16 bit dane.
+Dodać instrukcję LDIH, LDIL.
+
+Dodać obsługę liczb ze znakiem

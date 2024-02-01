@@ -1,3 +1,5 @@
+`timescale 1ns/1ns
+
 module decoder8(
     input [2:0] SEL,
     input EN,

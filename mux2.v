@@ -1,14 +1,15 @@
 // -------------------- MUX --------------------
 // good one 2 on one
 
-module mux2(
+`timescale 1ns/1ns
+
+module mux2 #(
+	parameter DATA_WIDTH = 8) (
 	input [DATA_WIDTH-1:0] IN0,
 	input [DATA_WIDTH-1:0] IN1,
 	input SEL,
 	output reg [DATA_WIDTH-1:0] OUT
 );
-
-parameter DATA_WIDTH = 8;
 
 always @(*) begin
 	case(SEL)

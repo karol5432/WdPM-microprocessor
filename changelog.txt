@@ -1,0 +1,20 @@
+Latest changes:
+
+24/01/27
+Changed PNG of the processor.
+Tested conditional jumps.
+Added conditional jumps with zero flag.
+Added zero flag.
+
+24/01/26
+Tested read/write in RAM module.
+Changed RL, RR order with ADD, SUB
+Parameterized modules: ALU.v, mux*.v, register.v
+Added "update_backup.sh" file in parent folder, which deletes files in backup/ and copies from this directory.
+Added `timescales for every file in project.
+Removed old "rom16x8.v"
+Added XNOR instrucion in ID.
+Minor changed in "tb_processor.v" to ensure warningless compilation.
+Changed the order of the instructions in instrucion decoder.
+Changed the width of the ROM, so it contains 64 instructions.
+Changed the ods file for assembler, so it resembles the new decoder order and more data.

@@ -1,6 +1,8 @@
 // -------------------- COUNTER --------------------
 // counter module of WIDTH bits width
 
+`timescale 1ns/1ns
+
 module program_counter(
 	input nRST,
 	input CLK,
@@ -9,10 +11,10 @@ module program_counter(
 	output reg [WIDTH-1:0] DATA
 );
 
-parameter WIDTH = 5;
+parameter WIDTH = 6;
 
 always @(posedge CLK) begin
-	if(!nRST) DATA <= 5'h0;
+	if(!nRST) DATA <= 0;
 	else if (CE) DATA <= IN;
 	else DATA <= DATA + 1;
 end

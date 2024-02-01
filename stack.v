@@ -1,4 +1,4 @@
-`timescale 1ns/1ps
+`timescale 1ns/1ns
 
 module stack(
     input [DATA_WIDTH-1:0] DATA_IN,
@@ -21,7 +21,7 @@ reg [DATA_WIDTH-1:0] NEXT_DATA_OUT;
 
 always @(posedge CLK, negedge nRST) begin
     if(!nRST) begin
-        DATA_OUT <= 8'b00000000;
+        // DATA_OUT <= 8'b00000000;
         SP <= 3'b000;
         EMPTY <= 1'b1;
         FULL <= 1'b0;
@@ -61,7 +61,8 @@ always @(posedge CLK, negedge nRST) begin
     end
 end
 
-always @(*) begin
+always @(nRST, SP, EMPTY, FULL) begin
+    if (!nRST) DATA_OUT <= 8'b00000000;;
     if (SP == 3'b000 && EMPTY == 1'b0) DATA_OUT <= STACK[SP];
     else if (SP == 3'b111 && FULL == 1'b1) DATA_OUT <= STACK[SP];
     else DATA_OUT <= STACK[SP-1];

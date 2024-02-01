@@ -1,181 +1,90 @@
 $date
-	Sun Oct 29 21:11:46 2023
+	Sat Jan 27 17:46:53 2024
 $end
 $version
 	Icarus Verilog
 $end
 $timescale
-	100ps
+	1ps
 $end
 $scope module tb_alu $end
-$var wire 4 ! ACC_OUT [3:0] $end
-$var wire 4 " ALU_IN1 [3:0] $end
-$var wire 4 # ALU_OUT [3:0] $end
-$var reg 1 $ CE_ACC $end
-$var reg 1 % CE_R0 $end
-$var reg 1 & CLK $end
-$var reg 4 ' IN0 [3:0] $end
-$var reg 2 ( OP [1:0] $end
+$var wire 1 ! ZF $end
+$var wire 8 " OUT [7:0] $end
+$var reg 8 # IN0 [7:0] $end
+$var reg 8 $ IN1 [7:0] $end
+$var reg 4 % OP [3:0] $end
 $scope module alu1 $end
-$var wire 4 ) IN0 [3:0] $end
-$var wire 4 * IN1 [3:0] $end
-$var wire 2 + OP [1:0] $end
-$var reg 4 , OUT [3:0] $end
-$upscope $end
-$scope module ACC $end
-$var wire 1 - CE $end
-$var wire 1 . CLK $end
-$var wire 4 / IN [3:0] $end
-$var reg 4 0 OUT [3:0] $end
-$upscope $end
-$scope module R0 $end
-$var wire 1 1 CE $end
-$var wire 1 . CLK $end
-$var wire 4 2 IN [3:0] $end
-$var reg 4 3 OUT [3:0] $end
+$var wire 8 & IN0 [7:0] $end
+$var wire 8 ' IN1 [7:0] $end
+$var wire 4 ( OP [3:0] $end
+$var reg 8 ) OUT [7:0] $end
+$var reg 1 ! ZF $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
 #0
 $dumpvars
-bx 3
-bx 2
-01
-bx 0
-bx /
-0.
-0-
-bx ,
-b0 +
-bx *
 b0 )
-b0 (
+b1010 (
 b0 '
-0&
-0%
-0$
-bx #
-bx "
-bx !
+b0 &
+b1010 %
+b0 $
+b0 #
+b0 "
+x!
 $end
-#50
-1&
-1.
-#100
-b1010 ,
-b1010 #
-b1010 /
-0&
-0.
-1$
-1-
-b1 (
-b1 +
-b1010 '
-b1010 )
-#150
-b1010 0
-b1010 !
-b1010 2
-1&
-1.
-#200
-b1011 ,
-b1011 #
-b1011 /
-0&
-0.
-b10 (
-b10 +
-#250
-b1011 0
-b1011 !
-b1011 2
-1&
-1.
-#300
-0&
-0.
-0$
-0-
-#350
-1&
-1.
-#400
-0&
-0.
-1%
-11
-#450
-b1011 3
-b1011 "
-b1011 *
-1&
-1.
-#500
-0&
-0.
-0%
-01
-#550
-1&
-1.
-#600
-b1101 ,
-b1101 #
-b1101 /
-0&
-0.
-1$
-1-
-b10 '
-b10 )
+#20000
+0!
+b11111111 "
+b11111111 )
+b101 %
+b101 (
+b11011100 $
+b11011100 '
+b100011 #
+b100011 &
+#40000
+1!
+b0 "
+b0 )
+b100100 #
+b100100 &
+#60000
+0!
+b11011011 "
+b11011011 )
+b11111111 #
+b11111111 &
+#80000
+1!
+b0 "
+b0 )
+b0 %
 b0 (
-b0 +
-#650
-b1101 0
-b1101 !
-b1101 2
-1&
-1.
-#700
-0&
-0.
-0$
-0-
-#750
-1&
-1.
-#800
-b1011 ,
-b1011 #
-b1011 /
-0&
-0.
-1$
-1-
+#100000
+0!
+b11011100 "
+b11011100 )
+b11 %
 b11 (
-b11 +
-#850
-b1011 0
-b1011 !
-b1011 2
-1&
-1.
-#900
-0&
-0.
-0$
-0-
-#950
-1&
-1.
-#1000
-0&
-0.
-#1050
-1&
-1.
-#1100
-0&
-0.
+#120000
+1!
+b0 "
+b0 )
+b1001 %
+b1001 (
+#140000
+b101010 "
+b101010 )
+b1010 %
+b1010 (
+b101010 #
+b101010 &
+#160000
+0!
+b11110110 "
+b11110110 )
+b1 %
+b1 (
+#180000
